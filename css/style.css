@@ -1,0 +1,399 @@
+body {
+  background: url(texture-noise.png);
+  overflow: visible;
+  margin: 0;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica;
+  text-align: center;
+}
+
+#loadingboxcontainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	text-align: center;
+	z-index: 999;
+	background-color: rgba(200, 200, 200, 0.5);
+}
+
+#loadingbox {
+  padding-top: 300px;
+  position: relative;
+  width: 400px;
+  height: 300px;
+  margin: auto;
+}
+
+.progressbar {
+	position: relative;
+}
+.progresslabelcontainer {
+	position: absolute;
+	text-align: center;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+.progresslabel {
+	margin: auto;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	font-weight: bold;
+	text-shadow: 1px 1px 0 #fff;
+}
+
+#container {
+  width: 1280px;
+  height: 900px;
+  position: relative;
+  margin: auto;
+  opacity: 0;
+}
+
+#container > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#uicontainer {
+  pointer-events: none;
+}
+
+#uicontainer > * {
+  pointer-events: auto;
+}
+
+.svgcontainer {
+	text-align: center;
+}
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+  stroke-opacity: .3;
+}
+
+#globecontainer {
+  position: absolute;
+  top: 5px; 
+  bottom: 115px;
+  left: 50px;
+  right: 50px;
+  display: none;
+}
+
+#mapcontainer {
+  position: absolute;
+  top: -60px; 
+  bottom: 115px;
+  left: 50px;
+  right: 50px;
+  display: none;
+}
+
+#globecontainer_outer {
+    pointer-events: none;
+}
+
+#globe {
+  margin: auto;
+  pointer-events: all;
+  width: auto;
+}
+
+#globe .boundingCircle {
+  fill: url(#boundingCircleFill);
+  stroke: black;
+  stroke-width: 3;
+}
+
+#globe .country {
+  fill: rgba(221, 221, 221, 0.5);
+  stroke: #000;
+}
+
+#globe .frontcontainer {
+  opacity: 0.8;
+}
+
+#globe .backcontainer {
+  opacity: 0.8;
+}
+
+#map {
+  margin: auto;
+  pointer-events: all;
+}
+
+#map .boundingCircle {
+  fill: #eee;
+  stroke: black;
+  stroke-width: 3;
+}
+
+#map .country {
+  fill: rgba(221, 221, 221, 1.0);
+  stroke: #000;
+}
+
+#slidercontainer {
+	height: 100px;
+	position: absolute;
+	width: 1200px;
+	bottom: 90px;
+}
+
+#play {
+	position: absolute;
+	left: 110px;
+	width: 40px;
+	top: 0;
+	height: 50px;
+	bottom: 0;
+}
+#reset {
+	position: absolute;
+	left: 10px;
+	width: 40px;
+	top: 0;
+	height: 50px;
+	bottom: 0;
+}
+#previous {
+	position: absolute;
+	left: 60px;
+	width: 40px;
+	top: 0;
+	height: 50px;
+	bottom: 0;
+}
+#next {
+	position: absolute;
+	left: 160px;
+	width: 40px;
+	top: 0;
+	height: 50px;
+	bottom: 0;
+}
+
+#slidercontainer_inner {
+	position: absolute;
+	top: 0;
+	left: 215px;
+	bottom: 0;
+	right: 10px;
+}
+
+#slider {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	height: 100%;
+}
+
+#slider .ui-slider-handle {
+	height: 100%;
+	top: -1px;
+	background: none;
+	margin-left:-2px;
+	border:1px solid red;
+}
+
+
+#timelabel {
+	font-size:32px;
+	position: absolute;
+	opacity: 0.6;
+	top: 3px;
+	height: 45px;
+	line-height: 45px;
+	font-weight: bold; 
+}
+
+
+#mapradio {
+	position: absolute;
+	left: 10px;
+	bottom: 105px;
+	z-index: 100;
+}
+
+#toolbox {
+	position: absolute;
+	left: 10px;
+	bottom: 260px;
+}
+
+.countryPopoutDialog {
+	background-color: white !important;
+	border-radius: 5px;
+	overflow: hidden !important;
+}
+
+.ui-button.ui-state-active.globeRunning {
+	color: orange;
+}
+
+#subtypecontainer {
+	background: white;
+	min-width:369px;
+}
+
+#subtypecontainer .ui-widget-header {
+	padding: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#subtypecontainer .ui-button-text {
+	font-size: 0.75em;
+}
+
+#subtypecontainer label.ui-state-active {
+	background-image:none;
+}
+
+.countryPopoutDialog {
+	padding-left: 30px !important;
+	padding-bottom: 15px !important;
+    overflow-y: auto !important;
+}
+
+.countryPopoutDialog .yLabel {
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg);
+	-o-transform: rotate(-90deg);
+	transform: rotate(-90deg);
+	
+	-webkit-transform-origin: 50% 50%;
+	-moz-transform-origin: 50% 50%;
+	-ms-transform-origin: 50% 50%;
+	-o-transform-origin: 50% 50%;
+	transform-origin: 50% 50%;
+	
+	position: absolute;
+	top: 50%;
+	width: 210px;
+	height: 0;
+	left: -95px;
+	
+	font-weight: bold;
+}
+
+.countryPopoutDialog .xLabel {
+	position: absolute;
+	text-align: center;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	font-weight: bold;
+	padding-bottom: 10px;
+}
+
+.ui-dialog .ui-dialog-title {
+	float: none;
+}
+
+#about{
+    width: 65px; 
+    height: 50px; 
+	text-align: center;
+	position: absolute;
+
+}
+
+#aboutbox{
+	display:none;
+	background-color: white !important;
+	border-radius: 5x;
+	text-align: left;
+    
+}
+
+#summarybox {
+	display:none;
+	background-color: white !important;
+	border-radius: 5x;
+	text-align: center;
+	font-size: 1em;
+    overflow: auto;
+    /*
+    resize: both;
+    overflow: auto;
+    */
+}
+
+.summary_dialog .ui-dialog-titlebar-close {
+	display:none;
+}
+
+.input_dialog {min-width:400px;}
+.input_dialog .ui-dialog-titlebar-close {display:none;}
+.input_dialog .ui-dialog-titlebar {text-align:left;}
+.input_dialog .ui-dialog-title {line-height:2;}
+
+.data_dialog {
+	background:none;
+	border:none;
+}
+
+.data_dialog .ui-dialog-titlebar {
+	padding-right:35px;
+}
+
+.data_dialog span {
+	color:#FFFFFF;
+}
+
+#footer {
+    text-align: right; 
+    margin-top: 10px;
+    margin-right: 15px;
+}
+
+/* d3 specific */
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+/*table for  summarybox*/
+table.sumtable {
+border-spacing:0; 
+width:60%;
+cellspacing :15;
+align :center;
+}
+
+table.sumtable td{
+border-top:1px solid black;
+padding-bottom:0;
+padding-top:0;
+}
+/*table for  legend*/
+table.legend {
+	display:inline-block;
+    border-spacing:0; 
+    font-size : 16px;
+    font-weight :bold;
+    text-align :center;
+	border:1px solid black;
+}
+
+#saturationlegend {
+	position:absolute;
+	text-align:center;
+	bottom:193px;
+	width:100%;
+}
