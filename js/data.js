@@ -153,6 +153,10 @@ var dataReady, onDataReady;
 		index_available[i] = true;
 	dataset[0] = [];
 	years_by_index[0] = [];
+	dataset[1] = [];
+	years_by_index[1] = [];
+	dataset[2] = [];
+	years_by_index[2] = [];
 	
 	$.getJSONGz("data/military.json.gz", function(data) {
 	    var filename = "Military expenditure (% of GDP)";
@@ -171,8 +175,6 @@ var dataReady, onDataReady;
 
 		for(var i=0; i<dataset[selected].length; i++) {
 			var row = dataset[selected][i];
-
-	
 			row.yearnum = years_by_index[selected].length;
 			var lastyear = (years_by_index[selected].length > 0 ? years_by_index[selected][maxYearIndex()] : null);
 			if(lastyear == null || row.year != lastyear.year) {
@@ -183,8 +185,7 @@ var dataReady, onDataReady;
 			}
 			row.yearindex = maxYearIndex();
 			row.scalefactors = {};
-		}				
-		//console.log(JSON.stringify(years_by_index[selected]));
+		}
 		
 		subtypes.push({name: "value", prettyname: filename, color: data_colors(selected), id: selected});
 		currentSubtypeSet = subtypes[selected];
@@ -194,21 +195,107 @@ var dataReady, onDataReady;
 				$('label[for="'+ i +'"]').css("background-color", "#eee");
 			}
 		}
-		//Initialize dataset for continents
+		
 		dataset_Continent[selected] = [];
 		for( var i=0; i<=maxYearIndex(); i++){
 		   for(var j=0; j<continents.length; j++){
 			   var row = dataset_Continent[selected].push({continent: continents[j], value: -1, scalefactors:-1, year: yearForYearIndex(i).year,yearindex: i, yearnum: i+1, valid:0 })
 			}
 		}
-		//console.log(dataset_Continent);
-		renormalizeData(currentSubtypeSet);
 		
+		renormalizeData(currentSubtypeSet);
 		number_of_loaded_datasets++;
-		//scheduleSubtypeChangeEvent();
+		//dataReady(true);
+		//yellImDoneLoading();
+	});	
+	
+	$.getJSONGz("data/gas.json.gz", function(data) {
+	    var filename = "Pump price for gasoine (US$ per liter)";
+		selected = subtypes.length;
+		index_available[selected] = false;
+		
+		dataset[selected] = data.sort(function(a, b){
+			if(a.year != b.year) {
+				return a.year - b.year;
+			}
+		});
+				
+		var firstyear = dataset[selected][0].year;
+		years_by_index[selected] = [];
+		points_per_year[selected] = [];
+
+		for(var i=0; i<dataset[selected].length; i++) {
+			var row = dataset[selected][i];
+			row.yearnum = years_by_index[selected].length;
+			var lastyear = (years_by_index[selected].length > 0 ? years_by_index[selected][maxYearIndex()] : null);
+			if(lastyear == null || row.year != lastyear.year) {
+				years_by_index[selected].push({year: row.year, yearnum: row.yearnum});
+				points_per_year[selected].push(1);
+			} else {
+				points_per_year[selected][points_per_year[selected].length-1]++;
+			}
+			row.yearindex = maxYearIndex();
+			row.scalefactors = {};
+		}
+		
+		subtypes.push({name: "value", prettyname: filename, color: data_colors(selected), id: selected});
+		currentSubtypeSet = subtypes[selected];
+		dataset_Continent[selected] = [];
+		for( var i=0; i<=maxYearIndex(); i++){
+		   for(var j=0; j<continents.length; j++){
+			   var row = dataset_Continent[selected].push({continent: continents[j], value: -1, scalefactors:-1, year: yearForYearIndex(i).year,yearindex: i, yearnum: i+1, valid:0 })
+			}
+		}
+		
+		renormalizeData(currentSubtypeSet);
+		number_of_loaded_datasets++;
+		//dataReady(true);
+		//yellImDoneLoading();
+	});
+	
+	$.getJSONGz("data/rd.json.gz", function(data) {
+	    var filename = "Research and developement expenditure (% of GDP)";
+		selected = subtypes.length;
+		index_available[selected] = false;
+		
+		dataset[selected] = data.sort(function(a, b){
+			if(a.year != b.year) {
+				return a.year - b.year;
+			}
+		});
+				
+		var firstyear = dataset[selected][0].year;
+		years_by_index[selected] = [];
+		points_per_year[selected] = [];
+
+		for(var i=0; i<dataset[selected].length; i++) {
+			var row = dataset[selected][i];
+			row.yearnum = years_by_index[selected].length;
+			var lastyear = (years_by_index[selected].length > 0 ? years_by_index[selected][maxYearIndex()] : null);
+			if(lastyear == null || row.year != lastyear.year) {
+				years_by_index[selected].push({year: row.year, yearnum: row.yearnum});
+				points_per_year[selected].push(1);
+			} else {
+				points_per_year[selected][points_per_year[selected].length-1]++;
+			}
+			row.yearindex = maxYearIndex();
+			row.scalefactors = {};
+		}
+		
+		subtypes.push({name: "value", prettyname: filename, color: data_colors(selected), id: selected});
+		currentSubtypeSet = subtypes[selected];
+		dataset_Continent[selected] = [];
+		for( var i=0; i<=maxYearIndex(); i++){
+		   for(var j=0; j<continents.length; j++){
+			   var row = dataset_Continent[selected].push({continent: continents[j], value: -1, scalefactors:-1, year: yearForYearIndex(i).year,yearindex: i, yearnum: i+1, valid:0 })
+			}
+		}
+		
+		renormalizeData(subtypes[2]);
+		number_of_loaded_datasets++;
 		dataReady(true);
 		yellImDoneLoading();
-	});	
+	});
 	
 	yellINeedToLoad();
 	dataReady(false);

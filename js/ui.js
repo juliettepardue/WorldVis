@@ -924,14 +924,49 @@ $(function(){
 	
 	selected = 0;
 	filename="Military Expenditure (% of GDP)";
+	UpdateStats();
 	
-	var r = $('<input type="checkbox" class="datasets" id="' + selected + '" checked="checked"><label for="' + selected + '" style="padding-right:5px;background-color:' + data_colors(selected) + ';">' + filename + '</label>');	
+	var r = $('<input type="checkbox" class="datasets" id="' + selected + '" checked="checked"><label for="' + selected + '" style="margin-bottom:5px;margin-right:5px;padding-right:5px;background-color:' + data_colors(selected) + ';">' + filename + '</label>');	
 	$("#input_data").append(r);
 	$("#" + selected).button({
       icons: {
         secondary: "ui-icon-circle-close"
       }
     });
+    
+    selected = 1;
+    filename = "Pump price for gasoine (US$ per liter)";
+    UpdateStats();
+    
+    var r2 = $('<input type="checkbox" class="datasets" id="1"><label for="1" style="margin-bottom:5px;margin-right:5px;padding-right:5px;background-color:' + data_colors(1) + ';">' + filename + '</label>');	
+	$("#input_data").append(r2);
+	$("#1").button({
+      icons: {
+        secondary: "ui-icon-circle-close"
+      }
+    });
+	
+	selected = 2;
+	filename = "Research and developement expenditure (% of GDP)";
+	UpdateStats();
+	
+	var r3 = $('<input type="checkbox" class="datasets" id="2"><label for="2" style="margin-bottom:5px;margin-right:5px;padding-right:5px;background-color:' + data_colors(2) + ';">' + filename + '</label>');	
+	$("#input_data").append(r3);
+	$("#2").button({
+      icons: {
+        secondary: "ui-icon-circle-close"
+      }
+    });
+	
+	selected = 0;
+	currentSubtypeSet = subtypes[selected];
+	
+	for(var i=0; i<subtypes.length; i++) {
+		if(i != selected) {
+			$('label[for="'+ i +'"]').css("color", data_colors(i));
+			$('label[for="'+ i +'"]').css("background-color", "#eee");
+		}
+	}
 	
 	$(".ui-button-icon-secondary").click(function(event) {
 		var index = $(this).parent().attr("for");
@@ -1147,6 +1182,8 @@ $(function(){
       
 	});
 		
+	selected = 0;
+	currentSubtypeSet = subtypes[selected];
     $("#mapradio_2d").trigger("click");
 	scheduleSubtypeChangeEvent();
 	yellImDoneLoading();
